@@ -85,7 +85,7 @@ class WCML_Upgrade {
 
 				if ( $notification['show'] ) {
 					?>
-					<div id="<?php echo $k; ?>" class="updated">
+					<div id="<?php echo esc_attr( $k ); ?>" class="updated">
 						<p><?php echo $notification['text']; ?></p>
 					</div>
 					<?php

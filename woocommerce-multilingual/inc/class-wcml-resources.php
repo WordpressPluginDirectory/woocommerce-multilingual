@@ -335,8 +335,8 @@ class WCML_Resources {
 					"This is a translation of %1\$s. Some of the fields are not editable. It's recommended to use the %2\$s for translating products.",
 					'woocommerce-multilingual'
 				),
-				'<a href="' . get_edit_post_link( $original_id ) . '" >' . get_the_title( $original_id ) . '</a>',
-				'<a href="' . self::linkToTranslation( $original_id, $language ) . '" >' .
+				'<a href="' . esc_url( get_edit_post_link( $original_id ) ) . '" >' . get_the_title( $original_id ) . '</a>',
+				'<a href="' . esc_url( self::linkToTranslation( $original_id, $language ) ) . '" >' .
 				__( 'WooCommerce Multilingual & Multicurrency products translator', 'woocommerce-multilingual' ) . '</a>'
 			) . '</h3>';
 	}

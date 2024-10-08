@@ -306,10 +306,10 @@ class WCML_WC_Gateways {
 						var input = jQuery('#<?php echo esc_js( $input_name ); ?>');
 						if ( input.length > 0 ) {
 							input.parent().append('<div class="translation_controls"></div>');
-							input.parent().find('.translation_controls').append('<a href="<?php echo $st_page; ?>" style="margin-left: 10px"><?php _e( 'translations', 'woocommerce-multilingual' ); ?></a>');
-							jQuery('#<?php echo $gateway_option . '_' . $text_key . '_language_selector'; ?>').prependTo( input.parent().find('.translation_controls') );
+							input.parent().find('.translation_controls').append('<a href="<?php echo esc_url( $st_page ); ?>" style="margin-left: 10px"><?php _e( 'translations', 'woocommerce-multilingual' ); ?></a>');
+							jQuery('#<?php echo esc_js( $gateway_option . '_' . $text_key ) . '_language_selector'; ?>').prependTo( input.parent().find('.translation_controls') );
 						}else{
-							jQuery('#<?php echo $gateway_option . '_' . $text_key . '_language_selector'; ?>').remove();
+							jQuery('#<?php echo esc_js( $gateway_option . '_' . $text_key ) . '_language_selector'; ?>').remove();
 						}
 					</script>
 					<?php

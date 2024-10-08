@@ -95,7 +95,7 @@ class WCML_Pointers{
 		// @todo move to an enqueued script?.
 		?>
 			<script type="text/javascript">
-				jQuery('<?php echo $jquery_selector; ?>').<?php echo $method; ?>('<?php echo $this->get_anchor( $link, $name, $anchor_template ); ?>');
+				jQuery('<?php echo esc_js( $jquery_selector ); ?>').<?php echo $method; ?>('<?php echo $this->get_anchor( $link, $name, $anchor_template ); ?>');
 			</script>
 		<?php
 	}

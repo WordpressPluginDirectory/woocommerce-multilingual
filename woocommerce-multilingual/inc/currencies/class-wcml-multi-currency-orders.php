@@ -169,7 +169,7 @@ class WCML_Multi_Currency_Orders {
 
 					<?php foreach ( $currencies as $currency ) : ?>
 
-						<option value="<?php echo $currency; ?>" <?php echo $current_order_currency == $currency ? 'selected="selected"' : ''; ?>><?php echo $wc_currencies[ $currency ]; ?></option>
+						<option value="<?php echo esc_attr( $currency ); ?>" <?php echo $current_order_currency == $currency ? 'selected="selected"' : ''; ?>><?php echo $wc_currencies[ $currency ]; ?></option>
 
 					<?php endforeach; ?>
 

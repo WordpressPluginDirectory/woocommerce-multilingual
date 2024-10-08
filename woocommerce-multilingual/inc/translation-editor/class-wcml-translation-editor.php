@@ -93,7 +93,7 @@ class WCML_Translation_Editor {
 				echo PHP_EOL . '// <![CDATA[' . PHP_EOL;
 				echo 'addLoadEvent(function(){' . PHP_EOL;
 				echo "jQuery('#product-type option').prop('selected', false);" . PHP_EOL;
-				echo "jQuery('#product-type option[value=\"" . $terms[0]->slug . "\"]').prop('selected', true);" . PHP_EOL;
+				echo "jQuery('#product-type option[value=\"" . esc_js( $terms[0]->slug ) . "\"]').prop('selected', true);" . PHP_EOL;
 				echo '});' . PHP_EOL;
 				echo PHP_EOL . '// ]]>' . PHP_EOL;
 				echo '</script>';
@@ -158,7 +158,7 @@ class WCML_Translation_Editor {
 		);
 
 		if ( ! $update ) {
-			$job_id = $iclTranslationManagement->add_translation_job( $rid, $user_id, $translation_package );
+			wpml_tm_add_translation_job( $rid, $user_id, $translation_package, [] );
 		}
 
 	}

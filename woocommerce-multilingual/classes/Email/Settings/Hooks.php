@@ -124,7 +124,7 @@ class Hooks implements IWPML_Backend_Action, IWPML_DIC_Action {
 
 							?>
 							<script>
-								var input = jQuery('#<?php echo $emailInputKey; ?>');
+								var input = jQuery('#<?php echo esc_js( $emailInputKey ); ?>');
 								if (input.length) {
 									input.parent().append('<div class="translation_controls"></div>');
 									input.parent().find('.translation_controls').append('<a href="<?php echo esc_url( $stPage ); ?>" style="margin-left: 10px"><?php esc_html_e( 'translations', 'woocommerce-multilingual' ); ?></a>');

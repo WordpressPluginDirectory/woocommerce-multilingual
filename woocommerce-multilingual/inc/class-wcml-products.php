@@ -187,7 +187,7 @@ class WCML_Products {
 			if ( $job_language && $language['code'] != $job_language ) {
 				continue;
 			} elseif ( isset( $product_translations[ $language['code'] ] ) && $product_translations[ $language['code'] ]->original ) { ?>
-				<span title="<?php echo $language['english_name'] . ': ' . __( 'Original language', 'woocommerce-multilingual' ); ?>">
+				<span title="<?php echo esc_attr( $language['english_name'] ) . ': ' . __( 'Original language', 'woocommerce-multilingual' ); ?>">
 					<i class="otgs-ico-original"></i>
 				</span>
 				<?php
@@ -242,7 +242,7 @@ class WCML_Products {
 							$translation_queue_page = admin_url( 'admin.php?page=' . WPML_TM_FOLDER . '/menu/translations-queue.php&job_id=' . $tr_job_id );
 							$edit_url               = apply_filters( 'icl_job_edit_url', $translation_queue_page, $tr_job_id );
 							?>
-								<a href="<?php echo $edit_url; ?>" title="<?php echo $language['english_name'] . ': ' . __( 'Take this and edit', 'woocommerce-multilingual' ); ?>">
+								<a href="<?php echo esc_url( $edit_url ); ?>" title="<?php echo esc_attr( $language['english_name'] ) . ': ' . __( 'Take this and edit', 'woocommerce-multilingual' ); ?>">
 									<i class="otgs-ico-add"></i>
 								</a>
 												<?php
@@ -571,6 +571,15 @@ class WCML_Products {
 	}
 
 	public function switch_product_variations_language() {
+		if ( ! isset( $_POST['nonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( $_POST['nonce'], \WPML_Post_Edit_Ajax::AJAX_ACTION_SWITCH_POST_LANGUAGE ) ) {// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			return;
+		}
+		if ( ! current_user_can( 'edit_products' ) ) {
+			return;
+		}
 
 		$lang_to = false;
 		$post_id = false;

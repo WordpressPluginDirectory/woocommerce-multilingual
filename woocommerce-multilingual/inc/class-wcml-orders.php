@@ -435,7 +435,7 @@ class WCML_Orders {
 						<?php foreach ( $languages as $l ) : ?>
 
 							<option
-									value="<?php echo $l['language_code']; ?>" <?php echo $selected_lang == $l['language_code'] ? 'selected="selected"' : ''; ?>><?php echo $l['translated_name']; ?></option>
+									value="<?php echo esc_attr( $l['language_code'] ); ?>" <?php echo $selected_lang == $l['language_code'] ? 'selected="selected"' : ''; ?>><?php echo esc_html( $l['translated_name'] ); ?></option>
 
 						<?php endforeach; ?>
 

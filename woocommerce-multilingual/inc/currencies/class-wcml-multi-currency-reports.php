@@ -176,7 +176,7 @@ class WCML_Multi_Currency_Reports {
                 <option value=""><?php _e( 'Currency - no orders found', 'woocommerce-multilingual' ) ?></option>
 			<?php else: ?>
 				<?php foreach ( $currency_codes as $currency ): ?>
-                    <option value="<?php echo $currency ?>" <?php selected( $currency, $this->reports_currency ); ?>>
+                    <option value="<?php echo esc_attr( $currency ) ?>" <?php selected( $currency, $this->reports_currency ); ?>>
 						<?php printf( "%s (%s)", $currencies[ $currency ], get_woocommerce_currency_symbol( $currency ) ) ?>
                     </option>
 				<?php endforeach; ?>

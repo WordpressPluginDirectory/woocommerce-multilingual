@@ -7,6 +7,8 @@ class WCML_Synchronize_Product_Data {
 
 	const CUSTOM_FIELD_KEY_SEPARATOR = ':::';
 
+	const PRIORITY_BEFORE_STOCK_EMAIL_TRIGGER = 9;
+
 	/** @var woocommerce_wpml */
 	private $woocommerce_wpml;
 	/** @var SitePress */
@@ -24,7 +26,7 @@ class WCML_Synchronize_Product_Data {
 	 * @param WPML_Post_Translation $post_translations
 	 * @param wpdb                  $wpdb
 	 */
-	public function __construct( woocommerce_wpml $woocommerce_wpml, \WPML\Core\ISitePress $sitepress, WPML_Post_Translation $post_translations, wpdb $wpdb ) {
+	public function __construct( woocommerce_wpml $woocommerce_wpml, SitePress $sitepress, WPML_Post_Translation $post_translations, wpdb $wpdb ) {
 		$this->woocommerce_wpml  = $woocommerce_wpml;
 		$this->sitepress         = $sitepress;
 		$this->post_translations = $post_translations;
@@ -53,8 +55,8 @@ class WCML_Synchronize_Product_Data {
 
 		add_action( 'woocommerce_product_set_visibility', [ $this, 'sync_product_translations_visibility' ] );
 
-		add_action( 'woocommerce_product_set_stock', [ $this, 'sync_product_stock_hook' ] );
-		add_action( 'woocommerce_variation_set_stock', [ $this, 'sync_product_stock_hook' ] );
+		add_action( 'woocommerce_product_set_stock', [ $this, 'sync_product_stock_hook' ], self::PRIORITY_BEFORE_STOCK_EMAIL_TRIGGER );
+		add_action( 'woocommerce_variation_set_stock', [ $this, 'sync_product_stock_hook' ], self::PRIORITY_BEFORE_STOCK_EMAIL_TRIGGER );
 		add_action( 'woocommerce_recorded_sales', [ $this, 'sync_product_total_sales' ] );
 
 		add_action( 'woocommerce_product_set_stock_status', [ $this, 'sync_stock_status_for_translations' ], 100, 2 );
@@ -80,7 +82,7 @@ class WCML_Synchronize_Product_Data {
 		// check its a product.
 		$post_type = get_post_type( $post_id );
 		// set trid for variations.
-		if ( $post_type === 'product_variation' ) {
+		if ( 'product_variation' === $post_type ) {
 			$var_lang                   = $this->sitepress->get_language_for_element( wp_get_post_parent_id( $post_id ), 'post_product' );
 			$is_parent_original         = $this->woocommerce_wpml->products->is_original_product( wp_get_post_parent_id( $post_id ) );
 			$variation_language_details = $this->sitepress->get_element_language_details( $post_id, 'post_product_variation' );
@@ -90,6 +92,7 @@ class WCML_Synchronize_Product_Data {
 		}
 
 		// exceptions.
+		/* phpcs:ignore WordPress.VIP.SuperGlobalInputUsage.AccessDetected */
 		$ajax_call        = ( ! empty( $_POST['icl_ajx_action'] ) && 'make_duplicates' === $_POST['icl_ajx_action'] );
 		$api_call         = ! empty( $wp->query_vars['wc-api-version'] );
 		$auto_draft       = 'auto-draft' === $post->post_status;
@@ -352,8 +355,8 @@ class WCML_Synchronize_Product_Data {
 		if ( ! is_null( $stock ) ) {
 			$product_id = $product->get_id();
 
-			remove_action( 'woocommerce_product_set_stock', [ $this, 'sync_product_stock_hook' ] );
-			remove_action( 'woocommerce_variation_set_stock', [ $this, 'sync_product_stock_hook' ] );
+			remove_action( 'woocommerce_product_set_stock', [ $this, 'sync_product_stock_hook' ], self::PRIORITY_BEFORE_STOCK_EMAIL_TRIGGER );
+			remove_action( 'woocommerce_variation_set_stock', [ $this, 'sync_product_stock_hook' ], self::PRIORITY_BEFORE_STOCK_EMAIL_TRIGGER );
 
 			if ( $translated_product ) {
 				$this->update_stock_value( $translated_product, $stock );
@@ -369,8 +372,8 @@ class WCML_Synchronize_Product_Data {
 				}
 			}
 
-			add_action( 'woocommerce_product_set_stock', [ $this, 'sync_product_stock_hook' ] );
-			add_action( 'woocommerce_variation_set_stock', [ $this, 'sync_product_stock_hook' ] );
+			add_action( 'woocommerce_product_set_stock', [ $this, 'sync_product_stock_hook' ], self::PRIORITY_BEFORE_STOCK_EMAIL_TRIGGER );
+			add_action( 'woocommerce_variation_set_stock', [ $this, 'sync_product_stock_hook' ], self::PRIORITY_BEFORE_STOCK_EMAIL_TRIGGER );
 		}
 	}
 

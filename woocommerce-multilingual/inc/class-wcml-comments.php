@@ -262,7 +262,7 @@ class WCML_Comments {
 		if ( $all_languages_reviews_count > $current_language_reviews_count ) {
 			/* translators: %s is the number of reviews */
 			$comments_link_text = sprintf( __( 'Show reviews in all languages  (%s)', 'woocommerce-multilingual' ), $all_languages_reviews_count );
-			echo '<p><a id="lang-comments-link" href="' . $comments_link . '" rel="nofollow" class="all-languages-reviews" >' . $comments_link_text . '</a></p>';
+			echo '<p><a id="lang-comments-link" href="' . esc_url( $comments_link ) . '" rel="nofollow" class="all-languages-reviews" >' . esc_html( $comments_link_text ) . '</a></p>';
 		}
 	}
 
@@ -279,7 +279,7 @@ class WCML_Comments {
 		/* translators: %1$s is a language name and %2$s is the number of reviews */
 		$comments_link_text = sprintf( __( 'Show only reviews in %1$s (%2$s)', 'woocommerce-multilingual' ), $language_details['display_name'], $current_language_reviews_count );
 
-		echo '<p><a id="lang-comments-link" href="' . $comments_link . '" rel="nofollow" class="current-language-reviews" >' . $comments_link_text . '</a></p>';
+		echo '<p><a id="lang-comments-link" href="' . esc_url( $comments_link ) . '" rel="nofollow" class="current-language-reviews" >' . esc_html( $comments_link_text ) . '</a></p>';
 
 	}
 
@@ -322,7 +322,7 @@ class WCML_Comments {
 	public function open_lang_div( $comment ) {
 		$comment_language = $this->get_comment_language_on_all_languages_reviews( $comment );
 		if ( $comment_language ) {
-			printf( '<div lang="%s">', $comment_language );
+			printf( '<div lang="%s">', esc_attr( $comment_language ) );
 
 			if ( self::is_translated( $comment ) ) {
 				echo '<span class="wcml-review-translated">(' . esc_html__( 'translated', 'woocommerce-multilingual' ) . ')</span>';

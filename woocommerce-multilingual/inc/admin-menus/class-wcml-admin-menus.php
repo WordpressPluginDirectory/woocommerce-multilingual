@@ -176,7 +176,7 @@ class WCML_Admin_Menus {
 			);
 			$quick_edit_notice .= '</p>';
 
-			$quick_edit_notice_prod_link = '<input type="hidden" id="wcml_product_trnsl_link" value="' . admin_url( 'admin.php?page=wpml-wcml&tab=products&prid=' ) . '">';
+			$quick_edit_notice_prod_link = '<input type="hidden" id="wcml_product_trnsl_link" value="' . esc_url( admin_url( 'admin.php?page=wpml-wcml&tab=products&prid=' ) ) . '">';
 			// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 			?>
 			<script type="text/javascript">

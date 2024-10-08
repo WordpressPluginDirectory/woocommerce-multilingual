@@ -245,7 +245,7 @@ class WCML_WC_Strings {
 			if (jQuery('#woocommerce_permalink_structure').length) {
 				jQuery('#woocommerce_permalink_structure').parent().append(jQuery('#wpml_wcml_custom_base_req').html());
 			}
-			if (jQuery('input[name="woocommerce_product_category_slug"]').length && jQuery('input[name="woocommerce_product_category_slug"]').val() == '<?php echo $category_base; ?>') {
+			if (jQuery('input[name="woocommerce_product_category_slug"]').length && jQuery('input[name="woocommerce_product_category_slug"]').val() == '<?php echo esc_js( $category_base ); ?>') {
 				jQuery('input[name="woocommerce_product_category_slug"]').parent().append('<br><i class="icon-warning-sign"><?php echo esc_js( $category_notice ); ?></i>');
 			}
 		</script>
@@ -311,17 +311,17 @@ class WCML_WC_Strings {
 			?>
 
 			<script>
-				var input = jQuery('input[name="<?php echo $input_name; ?>"]');
+				var input = jQuery('input[name="<?php echo esc_js( $input_name ); ?>"]');
 
 				if (input.length) {
 
-					if ('<?php echo $input_name; ?>'==='product_permalink_structure' && jQuery('input[name="product_permalink"]:checked').val() == '') {
+					if ('<?php echo esc_js( $input_name ); ?>'==='product_permalink_structure' && jQuery('input[name="product_permalink"]:checked').val() == '') {
 						input = jQuery('input[name="product_permalink"]:checked').closest('.form-table').find('code').eq(0);
 					}
 
 					input.parent().append('<div class="translation_controls"></div>');
 
-					if ('<?php echo $input_name; ?>'==='woocommerce_product_attribute_slug' && input.val() == '') {
+					if ('<?php echo esc_js( $input_name ); ?>'==='woocommerce_product_attribute_slug' && input.val() == '') {
 
 						input.parent().find('.translation_controls').append('&nbsp;');
 
@@ -329,7 +329,7 @@ class WCML_WC_Strings {
 						input.parent().find('.translation_controls').append('<a href="<?php echo admin_url( 'admin.php?page=wpml-wcml&tab=slugs' ); ?>"><?php _e( 'translations', 'woocommerce-multilingual' ); ?></a>');
 					}
 
-					jQuery('#<?php echo $key; ?>_language_selector').prependTo(input.parent().find('.translation_controls'));
+					jQuery('#<?php echo esc_js( $key ); ?>_language_selector').prependTo(input.parent().find('.translation_controls'));
 				}
 			</script>
 			<?php
