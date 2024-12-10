@@ -63,9 +63,8 @@ class WCML_Attributes {
 			]
 		);
 
-		if ( isset( $_POST['icl_ajx_action'] ) && $_POST['icl_ajx_action'] == 'icl_custom_tax_sync_options' ) {
-			$this->icl_custom_tax_sync_options();
-		}
+		$this->wpml_ajax_custom_tax_sync_options();
+
 		add_filter(
 			'woocommerce_product_get_attributes',
 			[
@@ -552,15 +551,6 @@ class WCML_Attributes {
 		return $translatable;
 	}
 
-	public function icl_custom_tax_sync_options() {
-		foreach ( $_POST['icl_sync_tax'] as $taxonomy => $value ) {
-			if ( substr( $taxonomy, 0, 3 ) == 'pa_' ) {
-				$this->set_attribute_config_in_wcml_settings( $taxonomy, $value );
-			}
-		}
-
-	}
-
 	public function is_attributes_fully_translated() {
 
 		$product_attributes = $this->get_translatable_attributes();
@@ -898,4 +888,29 @@ class WCML_Attributes {
 		}
 	}
 
+	/**
+	 * Triggered on WPML / Settings by ajax request
+	 * Security [wcml-4927]: Data verification and authorization required
+	 */
+	private function wpml_ajax_custom_tax_sync_options() {
+		if ( ! isset( $_POST['icl_ajx_action'] ) || $_POST['icl_ajx_action'] !== 'icl_custom_tax_sync_options' ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['icl_sync_tax'] ) || ! is_array( $_POST['icl_sync_tax'] ) ) {
+			return;
+		}
+
+		if ( isset( $_POST['_icl_nonce'] ) && wp_verify_nonce( $_POST['_icl_nonce'], 'icl_custom_tax_sync_options_nonce' ) ) {
+
+			foreach ( $_POST['icl_sync_tax'] as $taxonomyName => $translationPreference ) {
+				$taxonomyName          = wc_sanitize_taxonomy_name( wp_unslash( $taxonomyName ) );
+				$translationPreference = (int) $translationPreference;
+
+				if ( substr( $taxonomyName, 0, 3 ) == 'pa_' ) {
+					$this->set_attribute_config_in_wcml_settings( $taxonomyName, $translationPreference );
+				}
+			}
+		}
+	}
 }

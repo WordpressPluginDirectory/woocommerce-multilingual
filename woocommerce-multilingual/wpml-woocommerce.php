@@ -6,9 +6,7 @@
  * Author: OnTheGoSystems
  * Author URI: http://www.onthegosystems.com/
  * Text Domain: woocommerce-multilingual
- * Requires at least: 4.7
- * Tested up to: 6.6
- * Version: 5.3.8
+ * Version: 5.3.9
  * Plugin Slug: woocommerce-multilingual
  * WC requires at least: 3.9
  * WC tested up to: 9.3
@@ -37,7 +35,7 @@ if ( ! $wpml_php_version_check->is_ok() ) {
 	return;
 }
 
-define( 'WCML_VERSION', '5.3.8' );
+define( 'WCML_VERSION', '5.3.9' );
 define( 'WCML_PLUGIN_PATH', dirname( __FILE__ ) );
 define( 'WCML_PLUGIN_FOLDER', basename( WCML_PLUGIN_PATH ) );
 define( 'WCML_LOCALE_PATH', WCML_PLUGIN_PATH . '/locale' );
